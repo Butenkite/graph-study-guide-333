@@ -64,19 +64,30 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    Map<Vertex<Integer>, Integer> visited = new HashMap<>();
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Map<Vertex<Integer>, Integer> total = new HashMap<>();
     List<Integer> returnable = new ArrayList<>();
-    // sortedReachableHelper(starting, visited, returnable);
+    sortedReachableHelper(starting, total, visited);
+    for (Vertex<Integer> current : total.keySet()) {
+      returnable.add(current.data);
+    }
+    returnable.sort(Integer::compareTo);
     return returnable;
   }
 
 
-  public static void sortedReachableHelper(Vertex<Integer> starting,  Map<Vertex<Integer>, Integer> visited, List<Integer> returnable) {
+  public static void sortedReachableHelper(Vertex<Integer> starting,  Map<Vertex<Integer>, Integer> total, Set<Vertex<Integer>> visited) {
     if(visited.contains(starting) || starting == null) return;
     visited.add(starting);
+    if(total.containsKey(starting)){
+      total.put(starting, total.get(starting) + 1);
+    }
+    else{
+      total.put(starting, 1);
+    }
     for(Vertex<Integer> current : starting.neighbors){
       if(!visited.contains(current)){
-        oddVerticesHelper(current, visited);
+        sortedReachableHelper(current, total, visited);
       }
     }
   }
