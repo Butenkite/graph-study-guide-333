@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,16 +29,18 @@ public class Practice {
    */
   public static int oddVertices(Vertex<Integer> starting) {
     Set<Vertex<Integer>> visited = new HashSet<>();
-    oddVerticesHelper(starting, visited);
-    return visited.size();
+    Set<Vertex<Integer>> odds = new HashSet<>();
+    oddVerticesHelper(starting, visited, odds);
+    return odds.size();
   }
 
-    public static void oddVerticesHelper(Vertex<Integer> starting, Set visited) {
+    public static void oddVerticesHelper(Vertex<Integer> starting, Set<Vertex<Integer>> visited, Set<Vertex<Integer>> odds) {
     if(visited.contains(starting) || starting == null) return;
     visited.add(starting);
+    if(starting.data%2 == 1){ odds.add(starting); }
     for(Vertex<Integer> current : starting.neighbors){
       if(!visited.contains(current)){
-        oddVerticesHelper(current, visited);
+        oddVerticesHelper(current, visited, odds);
       }
     }
   }
@@ -61,8 +64,23 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    return null;
+    Map<Vertex<Integer>, Integer> visited = new HashMap<>();
+    List<Integer> returnable = new ArrayList<>();
+    // sortedReachableHelper(starting, visited, returnable);
+    return returnable;
   }
+
+
+  public static void sortedReachableHelper(Vertex<Integer> starting,  Map<Vertex<Integer>, Integer> visited, List<Integer> returnable) {
+    if(visited.contains(starting) || starting == null) return;
+    visited.add(starting);
+    for(Vertex<Integer> current : starting.neighbors){
+      if(!visited.contains(current)){
+        oddVerticesHelper(current, visited);
+      }
+    }
+  }
+    
 
   /**
    * Returns a sorted list of all values reachable from the given starting vertex in the provided graph.
